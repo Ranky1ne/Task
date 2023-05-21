@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link href="/style.css" rel="stylesheet" type="text/css" />
+    <script src="/users.js"></script>
+  </head>
+  <body>
+    <div class="login">
+      <form action="/login" method="post">
+        <h1>Login</h1>
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          id="email"
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          id="password"
+          required
+        />
+        <input type="submit" value="Log in" />
+      </form>
+      <form action="/register" method="get">
+      <input type="submit" value="Sign in" />
+    </form>
+      
+    </div>
+  </body>
+</html>
