@@ -38,17 +38,31 @@ const sessionChecker = (req, res, next) => {
   }
 };
 app.use('/account', sessionChecker);
+
 app.get("/", sessionChecker,  function (req, res, next) {
   res.redirect("/account");
 });
 
 app.get("/tableData",sessionChecker,  function (req, res, next){
+  try {
   const {login} = req.session.profile;
   const data = getTableData(login);
   res.json(data);
+  } catch(error){
+    res.status(400).send(error.message);
+  }
   
 });
 
+app.get('/task/:id',  function (req, res){
+  try{
+  const path = req.originalUrl;
+  const largeUrl = searchUrl(path);
+  res.redirect(largeUrl);
+  } catch(error) {
+    res.status(400).send(error.message);
+  }
+  });
  
 
 app.post("/newUrl", sessionChecker, function (req, res, next) {
@@ -61,12 +75,6 @@ app.post("/newUrl", sessionChecker, function (req, res, next) {
 } catch (error) {
   res.status(400).send(error.message);
 }
-});
-
-app.get('/task/:id',  function (req, res){
-const path = req.originalUrl;
-const largeUrl = searchUrl(path);
-res.redirect(largeUrl);
 });
 
 app.post("/login", async function (req, res, next) {
@@ -94,8 +102,6 @@ app.post("/login", async function (req, res, next) {
     res.status(400).send(error.details.map((e) => e.message).join("\n"));
   }
 });
-
-
 
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
